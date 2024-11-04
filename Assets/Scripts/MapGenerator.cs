@@ -91,4 +91,20 @@ public class MapGenerator : MonoBehaviour
     {
         
     }
+
+    // Shortest path algorithm
+    static int V = 9;
+    int minDistance(int[] dist, bool[] sptSet)
+    {
+        // Initialize min value
+        int min = int.MaxValue, min_index = -1;
+
+        for (int v = 0; v < V; v++)
+            if (sptSet[v] == false && dist[v] <= min) {
+                min = dist[v];
+                min_index = v;
+            }
+
+        return min_index;
+    }
 }
