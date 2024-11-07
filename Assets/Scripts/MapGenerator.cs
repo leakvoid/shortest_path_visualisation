@@ -107,5 +107,4 @@ public class MapGenerator : MonoBehaviour
 
         return min_index;
     }
-    
 }
