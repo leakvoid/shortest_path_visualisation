@@ -91,4 +91,9 @@ public class MapGenerator : MonoBehaviour
     {
         
     }
+
+    void ShortestPath()
+    {
+        
+    }
 }
