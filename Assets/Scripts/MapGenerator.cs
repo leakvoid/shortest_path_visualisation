@@ -8,7 +8,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] int minNumberOfWallPaths = 2;
     [SerializeField] int maxNumberOfWallPaths = 7;
 
-    enum CellType
+    public enum CellType
     {
         Empty,
         Wall,
@@ -18,10 +18,14 @@ public class MapGenerator : MonoBehaviour
     }
     CellType[,] mapCells;
 
+    public CellType[,] GetMapData()
+    {
+        return mapCells;
+    }
+
     void Start()
     {
         GenerateNewMap();
-        DebugPrint();
     }
 
     void GenerateNewMap()
@@ -85,11 +89,6 @@ public class MapGenerator : MonoBehaviour
             line += "\n";
         }
         Debug.Log(line);
-    }
-
-    void Update()
-    {
-        
     }
 
     void ShortestPath()
