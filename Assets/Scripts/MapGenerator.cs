@@ -21,6 +21,9 @@ public class MapGenerator : MonoBehaviour
 
     public CellType[,] GenerateNewMap()
     {
+        if (mapSize % 2 == 0)
+            mapSize += 1;
+
         mapCells = new CellType[mapSize, mapSize];
 
         // Add outer walls
@@ -84,7 +87,7 @@ public class MapGenerator : MonoBehaviour
         Debug.Log(line);
     }
 
-    // shortest path section
+    // shortest path (modified BFS)
     Stack<int> shortestPath;
 
     public int[] FindShortestPath()

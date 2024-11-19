@@ -14,10 +14,12 @@ public class MapRenderer : MonoBehaviour
     [SerializeField] RuleTile pathTile;
 
     MapGenerator mapGenerator;
+    MazeGenerator mazeGenerator;
 
     void Awake()
     {
         mapGenerator = FindObjectOfType<MapGenerator>();
+        mazeGenerator = FindObjectOfType<MazeGenerator>();
     }
 
     void Start()
@@ -57,6 +59,29 @@ public class MapRenderer : MonoBehaviour
             int end = System.Math.Max(shortestPath[i], shortestPath[i + 1]);
             for (int j = start; j <= end; j++)
                 roomTilemap.SetTile(new Vector3Int(i * 2 + 1, j, 0), pathTile);
+        }
+    }
+
+    public void DrawNewMaze()
+    {
+        backgroundTilemap.ClearAllTiles();
+        roomTilemap.ClearAllTiles();
+
+        bool[,] mapData = mazeGenerator.GenerateNewMaze();
+
+        for (int i = 0; i < mapData.GetLength(0); i++)
+        {
+            for (int j = 0; j < mapData.GetLength(1); j++)
+                backgroundTilemap.SetTile(new Vector3Int(i, j, 0), backgroundTile);
+        }
+
+        for (int i = 0; i < mapData.GetLength(0); i++)
+        {
+            for (int j = 0; j < mapData.GetLength(1); j++)
+            {
+                if (mapData[i,j] == false)
+                    roomTilemap.SetTile(new Vector3Int(i, j, 0), wallTile);
+            }
         }
     }
 }
