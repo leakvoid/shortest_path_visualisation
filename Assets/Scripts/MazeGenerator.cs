@@ -10,6 +10,9 @@ public class MazeGenerator : MonoBehaviour
 
     bool[,] grid;
 
+    (int, int) mazeStart;
+    (int, int) mazeEnd;
+
     // Wilson Maze algorithm
     public bool[,] GenerateNewMaze()
     {
@@ -83,6 +86,7 @@ public class MazeGenerator : MonoBehaviour
             if (res[1, num])
             {
                 res[0, num] = true;
+                mazeStart = (0, num);
                 break;
             }
         }
@@ -92,9 +96,11 @@ public class MazeGenerator : MonoBehaviour
             if (res[mazeSize - 2, num])
             {
                 res[mazeSize - 1, num] = true;
+                mazeEnd = (mazeSize - 1, num);
                 break;
             }
         }
+        grid = res;
         return res;
     }
 
@@ -116,5 +122,40 @@ public class MazeGenerator : MonoBehaviour
         bool tooSmall = (newCell.Item1 < 0 || newCell.Item2 < 0);
         bool tooBig = (newCell.Item1 >= mazeSize || newCell.Item2 >= mazeSize);
         return !(tooSmall || tooBig);
+    }
+
+    // BFS maze soulution
+    bool mazeEndFound;
+    (int,int)[] mazeSolution;
+
+    public (int,int)[] SolveMaze()
+    {
+        mazeEndFound = false;
+        var path = new Stack<(int,int)>();
+        path.Push(mazeStart);
+        TraverseMaze(path, mazeStart, (mazeStart.Item1 + 1, mazeStart.Item2));
+        return mazeSolution;
+    }
+
+    void TraverseMaze(Stack<(int,int)> path, (int,int) prev, (int,int) current)
+    {
+        if (!grid[current.Item1,current.Item2] || prev == current || mazeEndFound)
+            return;
+        
+        if (current == mazeEnd)
+        {
+            path.Push(current);
+            mazeSolution = path.ToArray();
+            mazeEndFound = true;
+            return;
+        }
+        
+        (int, int) newPrev = path.Peek();
+        path.Push(current);
+        TraverseMaze(path, newPrev, (current.Item1 + 1, current.Item2));
+        TraverseMaze(path, newPrev, (current.Item1, current.Item2 + 1));
+        TraverseMaze(path, newPrev, (current.Item1 - 1, current.Item2));
+        TraverseMaze(path, newPrev, (current.Item1, current.Item2 - 1));
+        path.Pop();
     }
 }

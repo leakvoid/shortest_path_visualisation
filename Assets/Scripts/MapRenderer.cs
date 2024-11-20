@@ -83,5 +83,11 @@ public class MapRenderer : MonoBehaviour
                     roomTilemap.SetTile(new Vector3Int(i, j, 0), wallTile);
             }
         }
+
+        (int,int)[] mazeSolution = mazeGenerator.SolveMaze();
+        foreach((int,int) item in mazeSolution)
+        {
+            roomTilemap.SetTile(new Vector3Int(item.Item1, item.Item2, 0), pathTile);
+        }
     }
 }
