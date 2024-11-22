@@ -134,7 +134,7 @@ public class MazeGenerator : MonoBehaviour
         var path = new Stack<(int,int)>();
         path.Push(mazeStart);
         TraverseMaze(path, mazeStart, (mazeStart.Item1 + 1, mazeStart.Item2));
-        return mazeSolution;
+        return mazeSolution; 
     }
 
     void TraverseMaze(Stack<(int,int)> path, (int,int) prev, (int,int) current)
